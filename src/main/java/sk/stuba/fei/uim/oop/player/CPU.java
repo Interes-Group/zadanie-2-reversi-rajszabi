@@ -17,17 +17,12 @@ public class CPU extends Player{
         Node n = Collections.max(validMoves.entrySet(), Map.Entry.comparingByValue()).getKey();
         int x = n.getX() / node.getNodeSize();
         int y = n.getY() / node.getNodeSize();
-        if (isDirectionValid(board, y, x, 0, 1, size, false) != 0) {
-            isDirectionValid(board, y, x, 0, 1, size, true);
-        }
-        if (isDirectionValid(board, y, x, 0, -1, size, false) != 0) {
-            isDirectionValid(board, y, x, 0, -1, size, true);
-        }
-        if (isDirectionValid(board, y, x, 1, 0, size, false) != 0) {
-            isDirectionValid(board, y, x, 1, 0, size, true);
-        }
-        if (isDirectionValid(board, y, x, -1, 0, size, true) != 0) {
-            isDirectionValid(board, y, x, -1, 0, size, true);
+        for (int i=-1; i<2; i++) {
+            for (int j=-1; j<2; j++) {
+                if (isDirectionValid(board, y, x, i, j, size, false) != 0) {
+                    isDirectionValid(board, y, x, i, j, size, true);
+                }
+            }
         }
         this.addNode(n);
     }

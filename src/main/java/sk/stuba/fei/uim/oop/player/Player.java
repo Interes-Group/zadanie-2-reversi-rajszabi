@@ -37,30 +37,15 @@ public abstract class Player {
                 moveValueSum = 0;
                 playable = false;
                 if (board[i][j].getPlayer() == null) {
-                    moveValue = isDirectionValid(board, i, j, 0, 1, size, false);
-                    if (moveValue != 0) {
-                        playable = true;
-                        moveValueSum += moveValue;
+                    for (int k=-1; k<2; k++) {
+                        for (int l=-1; l<2; l++) {
+                            moveValue = isDirectionValid(board, i, j, k, l, size, false);
+                            if (moveValue != 0) {
+                                playable = true;
+                                moveValueSum += moveValue;
+                            }
+                        }
                     }
-
-                    moveValue = isDirectionValid(board, i, j, 0, -1, size, false);
-                    if (moveValue != 0) {
-                        playable = true;
-                        moveValueSum += moveValue;
-                    }
-
-                    moveValue = isDirectionValid(board, i, j, 1, 0, size, false);
-                    if (moveValue != 0) {
-                        playable = true;
-                        moveValueSum += moveValue;
-                    }
-
-                    moveValue = isDirectionValid(board, i, j, -1, 0, size, false);
-                    if (moveValue != 0) {
-                        playable = true;
-                        moveValueSum += moveValue;
-                    }
-
                     if (playable) {
                         validMoves.put(board[i][j], moveValueSum);
                     }

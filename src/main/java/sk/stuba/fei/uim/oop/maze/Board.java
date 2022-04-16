@@ -68,7 +68,6 @@ public class Board {
     }
 
     public void searchPlayerMoves() {
-        System.out.println("BoardSize: " + this.boardSize);
         this.players[0].searchMoves(this.board, this.boardSize);
         this.players[1].searchMoves(this.board, this.boardSize);
     }
