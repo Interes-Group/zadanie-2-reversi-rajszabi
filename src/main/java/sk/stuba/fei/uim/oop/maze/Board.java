@@ -1,64 +1,66 @@
 package sk.stuba.fei.uim.oop.maze;
 
 import lombok.Getter;
+import lombok.Setter;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import java.awt.*;
-import java.util.Collections;
-import java.util.Map;
 
 public class Board {
-    public static final int MAZE_SIZE = 8;
+    @Setter
+    private int boardSize;
     @Getter
     private Node[][] board;
+    @Setter
     private Player[] players;
 
-    public Board(Player[] players) {
+    public Board(Player[] players, int boardSize) {
         this.players = players;
+        this.boardSize = boardSize;
+        this.generateBoard();
+    }
+
+    public void generateBoard() {
         this.initializeBoard();
         this.initializePlayers();
     }
 
-    public Node getNode(int x, int y) {
-        if (x >= MAZE_SIZE || x < 0 || y >= MAZE_SIZE || y < 0) {
-            return null;
-        }
-        return this.board[y][x];
-    }
-
     private void initializeBoard() {
-        this.board = new Node[MAZE_SIZE][MAZE_SIZE];
+        this.board = new Node[boardSize][boardSize];
 
-        for (int i=0; i<MAZE_SIZE; i++){
-            for (int j=0; j<MAZE_SIZE; j++) {
+        for (int i = 0; i< boardSize; i++){
+            for (int j = 0; j< boardSize; j++) {
                 this.board[i][j] = new Node(j, i);
             }
         }
     }
 
     private void initializePlayers() {
-        this.players[0].addNode(board[MAZE_SIZE/2-1][MAZE_SIZE/2-1]);
-        this.players[0].addNode(board[MAZE_SIZE/2][MAZE_SIZE/2]);
-        this.players[1].addNode(board[MAZE_SIZE/2-1][MAZE_SIZE/2]);
-        this.players[1].addNode(board[MAZE_SIZE/2][MAZE_SIZE/2-1]);
+        this.players[0].clearAllNodes();
+        this.players[1].clearAllNodes();
+        this.players[0].addNode(board[boardSize /2-1][boardSize /2-1]);
+        this.players[0].addNode(board[boardSize /2][boardSize /2]);
+        this.players[1].addNode(board[boardSize /2-1][boardSize /2]);
+        this.players[1].addNode(board[boardSize /2][boardSize /2-1]);
 
         searchPlayerMoves();
     }
 
-    public void searchPlayerMoves() {
-        this.players[0].searchMoves(board, MAZE_SIZE);
-        this.players[1].searchMoves(board, MAZE_SIZE);
+    public Node getNode(int x, int y) {
+        if (x >= boardSize || x < 0 || y >= boardSize || y < 0) {
+            return null;
+        }
+        return this.board[y][x];
     }
 
-    public void cpuTakesMove() {
-        Map<Node, Integer> validMoves = players[1].getValidMoves();
-        Node node = Collections.max(validMoves.entrySet(), Map.Entry.comparingByValue()).getKey();
-        players[1].makeMove(this.board, node);
+    public void searchPlayerMoves() {
+        this.players[0].searchMoves(board, boardSize);
+        this.players[1].searchMoves(board, boardSize);
     }
 
     public void draw(Graphics g) {
-        for (int i=0; i<MAZE_SIZE; i++){
-            for (int j=0; j<MAZE_SIZE; j++) {
+        for (int i = 0; i< boardSize; i++){
+            for (int j = 0; j< boardSize; j++) {
                 this.board[i][j].draw(g);
             }
         }

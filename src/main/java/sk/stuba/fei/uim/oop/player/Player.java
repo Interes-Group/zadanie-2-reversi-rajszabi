@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Player {
+public abstract class Player {
     @Getter
     protected Color color;
     @Getter
@@ -23,23 +23,9 @@ public class Player {
         this.validMoves = new HashMap<>();
     }
 
-    public void makeMove(Node[][] board, Node node) {
-        int x = node.getX() / Node.NODE_SIZE;
-        int y = node.getY() / Node.NODE_SIZE;
-        if (isDirectionValid(board, y, x, 0, 1, 8, false) != 0) {
-            isDirectionValid(board, y, x, 0, 1, 8, true);
-        }
-        if (isDirectionValid(board, y, x, 0, -1, 8, false) != 0) {
-            isDirectionValid(board, y, x, 0, -1, 8, true);
-        }
-        if (isDirectionValid(board, y, x, 1, 0, 8, false) != 0) {
-            isDirectionValid(board, y, x, 1, 0, 8, true);
-        }
-        if (isDirectionValid(board, y, x, -1, 0, 8, true) != 0) {
-            isDirectionValid(board, y, x, -1, 0, 8, true);
-        }
-        this.addNode(node);
-    }
+    public abstract void makeMove(Node[][] board, Node node);
+
+    public abstract void draw(Graphics g);
 
     public void searchMoves(Node[][] board, int size) {
         this.validMoves.clear();
@@ -83,7 +69,7 @@ public class Player {
         }
     }
 
-    private int isDirectionValid(Node[][] board, int row, int col, int rowDir, int colDir, int size, boolean takeMove) {
+    protected int isDirectionValid(Node[][] board, int row, int col, int rowDir, int colDir, int size, boolean takeMove) {
         int value = 0;
         boolean goodEndig = false;
         int currentRow = row + rowDir;
@@ -123,26 +109,12 @@ public class Player {
         this.nodes.remove(node);
     }
 
+    public void clearAllNodes() {
+        this.getValidMoves().clear();
+        this.getNodes().clear();
+    }
+
     public boolean canPlayNode(Node node) {
         return this.validMoves.containsKey(node);
     }
-
-
-    public void draw(Graphics g) {
-        for (Node node : this.nodes) {
-            g.setColor(this.color);
-            g.fillOval(node.getX() + 4 , node.getY() + 4, Node.NODE_SIZE - 10, Node.NODE_SIZE - 10);
-        }
-        drawPossibleMoves(g);
-    }
-
-    // TODO: 16. 4. 2022 Nem jo a color, csak feketere irja ki
-    private void drawPossibleMoves(Graphics g) {
-        if (this.color == Color.BLACK) {
-            for (Node node : validMoves.keySet()) {
-                node.drawPossible(g);
-            }
-        }
-    }
-
 }

@@ -18,7 +18,7 @@ public class Node {
     private final int parity;
     @Setter
     private boolean highlight;
-    public static final int NODE_SIZE = 40;
+    public static final int NODE_SIZE = 60;
 
     public Node(int x, int y) {
         this.x = x * NODE_SIZE;
