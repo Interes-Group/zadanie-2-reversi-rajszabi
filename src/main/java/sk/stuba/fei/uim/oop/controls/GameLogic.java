@@ -9,7 +9,6 @@ import sk.stuba.fei.uim.oop.player.Human;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -62,6 +61,22 @@ public class GameLogic extends UniversalAdapter{
         this.updateMapLabel();
     }
 
+    private void updateMapLabel() {
+        this.mapLabel.setText("Map size: " + this.slider.getValue() + "x" + this.slider.getValue());
+    }
+
+    private void updateChips() {
+        this.chipsLabel.setText("PLAYER: " + players[0].getNodes().size() + "  |  CPU: " + players[1].getNodes().size());
+    }
+
+    private void updateOnTurn(Player player) {
+        this.queueLabel.setText("ON TURN: " + ((player.getColor() == Color.BLACK) ? "BLACK" : "WHITE"));
+    }
+
+    private int convertPosition(int screenPosition) {
+        return (screenPosition < 0) ? -1 : screenPosition / this.board.getBoardAlternatives().get(this.board.getBoardSize());
+    }
+
     private boolean checkEnd() {
         return players[0].getValidMoves().size() == 0 && players[1].getValidMoves().size() == 0;
     }
@@ -105,22 +120,6 @@ public class GameLogic extends UniversalAdapter{
 
     private void endMessage() {
         this.queueLabel.setText("WINNER IS: " + ((players[0].getNodes().size() > players[1].getNodes().size()) ? "BLACK" : "WHITE"));
-    }
-
-    private void updateMapLabel() {
-        this.mapLabel.setText("Map size: " + this.slider.getValue() + "x" + this.slider.getValue());
-    }
-
-    private void updateChips() {
-        this.chipsLabel.setText("PLAYER: " + players[0].getNodes().size() + "  |  CPU: " + players[1].getNodes().size());
-    }
-
-    private void updateOnTurn(Player player) {
-        this.queueLabel.setText("ON TURN: " + ((player.getColor() == Color.BLACK) ? "BLACK" : "WHITE"));
-    }
-
-    private int convertPosition(int screenPosition) {
-        return (screenPosition < 0) ? -1 : screenPosition / this.board.getBoardAlternatives().get(this.board.getBoardSize());
     }
 
     @Override

@@ -17,10 +17,10 @@ public class Game {
         logic.getFrame().addKeyListener(logic);
 
         logic.getSlider().setPaintTrack(true);
-        logic.getSlider().setMinorTickSpacing(1);
+        logic.getSlider().setMinorTickSpacing(2);
         logic.getSlider().setMajorTickSpacing(2);
+        logic.getSlider().setSnapToTicks(true);
         logic.getSlider().setPaintLabels(true);
-        logic.getSlider().addChangeListener(logic);
 
         logic.getFrame().addKeyListener(logic);
         logic.getFrame().setFocusable(true);
@@ -37,10 +37,10 @@ public class Game {
         chipsPanel.setLayout(new GridBagLayout());
         sliderPanel.setLayout(new GridLayout(2,1));
 
-        logic.getQueueLabel().setFont(new Font("Inter", Font.BOLD, 18));
-        logic.getChipsLabel().setFont(new Font("Inter", Font.BOLD, 18));
+        logic.getQueueLabel().setFont(new Font("Mina", Font.BOLD, 18));
+        logic.getChipsLabel().setFont(new Font("Mina", Font.BOLD, 18));
         logic.getMapLabel().setHorizontalAlignment(JLabel.CENTER);
-        logic.getMapLabel().setFont(new Font("Inter", Font.PLAIN, 20));
+        logic.getMapLabel().setFont(new Font("Mina", Font.PLAIN, 20));
 
         queuePanel.add(logic.getQueueLabel());
         chipsPanel.add(logic.getChipsLabel());
