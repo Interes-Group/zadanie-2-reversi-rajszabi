@@ -10,20 +10,20 @@ public class Human extends Player{
         super(color);
     }
 
-    public void makeMove(Node[][] board, Node node) {
-        int x = node.getX() / Node.NODE_SIZE;
-        int y = node.getY() / Node.NODE_SIZE;
-        if (isDirectionValid(board, y, x, 0, 1, 8, false) != 0) {
-            isDirectionValid(board, y, x, 0, 1, 8, true);
+    public void makeMove(Node[][] board, Node node, int size) {
+        int x = node.getX() / node.getNodeSize();
+        int y = node.getY() / node.getNodeSize();
+        if (isDirectionValid(board, y, x, 0, 1, size, false) != 0) {
+            isDirectionValid(board, y, x, 0, 1, size, true);
         }
-        if (isDirectionValid(board, y, x, 0, -1, 8, false) != 0) {
-            isDirectionValid(board, y, x, 0, -1, 8, true);
+        if (isDirectionValid(board, y, x, 0, -1, size, false) != 0) {
+            isDirectionValid(board, y, x, 0, -1, size, true);
         }
-        if (isDirectionValid(board, y, x, 1, 0, 8, false) != 0) {
-            isDirectionValid(board, y, x, 1, 0, 8, true);
+        if (isDirectionValid(board, y, x, 1, 0, size, false) != 0) {
+            isDirectionValid(board, y, x, 1, 0, size, true);
         }
-        if (isDirectionValid(board, y, x, -1, 0, 8, true) != 0) {
-            isDirectionValid(board, y, x, -1, 0, 8, true);
+        if (isDirectionValid(board, y, x, -1, 0, size, true) != 0) {
+            isDirectionValid(board, y, x, -1, 0, size, true);
         }
         this.addNode(node);
     }
@@ -31,7 +31,7 @@ public class Human extends Player{
     public void draw(Graphics g) {
         for (Node node : this.nodes) {
             g.setColor(this.color);
-            g.fillOval(node.getX() + 4 , node.getY() + 4, Node.NODE_SIZE - 10, Node.NODE_SIZE - 10);
+            g.fillOval(node.getX() + 4 , node.getY() + 4, node.getNodeSize() - 10, node.getNodeSize() - 10);
         }
         drawPossibleMoves(g);
     }

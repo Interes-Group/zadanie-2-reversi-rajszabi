@@ -18,21 +18,15 @@ public class Node {
     private final int parity;
     @Setter
     private boolean highlight;
-    public static final int NODE_SIZE = 60;
+    @Getter
+    private int nodeSize;
 
-    public Node(int x, int y) {
-        this.x = x * NODE_SIZE;
-        this.y = y * NODE_SIZE;
+    public Node(int x, int y, int nodeSize) {
+        this.x = x * nodeSize;
+        this.y = y * nodeSize;
+        this.nodeSize = nodeSize;
         this.parity = (x+y) % 2;
     }
-
-    public void nodeSwitchPlayer(Player player) {
-        if (this.player != null) {
-            this.player.deleteNode(this);
-        }
-        this.player = player;
-    }
-
 
     public void draw(Graphics g) {
         if (parity == 0) {
@@ -40,7 +34,7 @@ public class Node {
         } else {
             g.setColor(new Color(0,100,0));
         }
-        g.fillRect(this.x, this.y, Node.NODE_SIZE, Node.NODE_SIZE);
+        g.fillRect(this.x, this.y, this.nodeSize, this.nodeSize);
     }
 
     public void drawPossible(Graphics g) {
@@ -50,13 +44,13 @@ public class Node {
         } else {
             g.setColor(Color.GRAY);
         }
-        g.fillOval(this.x + 4, this.y + 4, Node.NODE_SIZE - 10, Node.NODE_SIZE - 10);
+        g.fillOval(this.x + 4, this.y + 4, this.nodeSize - 10, this.nodeSize - 10);
 
         if (this.parity == 0) {
             g.setColor(new Color(0, 128, 0));
         } else {
             g.setColor(new Color(0, 100, 0));
         }
-        g.fillOval(this.x + 8, this.y + 8, Node.NODE_SIZE - 18, Node.NODE_SIZE - 18);
+        g.fillOval(this.x + 8, this.y + 8, this.nodeSize - 18, this.nodeSize - 18);
     }
 }

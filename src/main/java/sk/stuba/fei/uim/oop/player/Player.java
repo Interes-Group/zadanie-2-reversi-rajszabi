@@ -23,7 +23,7 @@ public abstract class Player {
         this.validMoves = new HashMap<>();
     }
 
-    public abstract void makeMove(Node[][] board, Node node);
+    public abstract void makeMove(Node[][] board, Node node, int size);
 
     public abstract void draw(Graphics g);
 
@@ -93,7 +93,7 @@ public abstract class Player {
                 currentRow=currentRow + rowDir;
                 currentCol=currentCol + colDir;
             }
-            if (currentRow<0 || currentCol<0 || currentRow==8 || currentCol==8) {
+            if (currentRow<0 || currentCol<0 || currentRow==size || currentCol==size) {
                 break;
             }
         }

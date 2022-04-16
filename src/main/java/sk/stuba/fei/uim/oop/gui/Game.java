@@ -27,22 +27,33 @@ public class Game {
         logic.getFrame().add(logic.getRender());
 
         JPanel sideMenu = new JPanel();
+        JPanel queuePanel = new JPanel();
         JPanel chipsPanel = new JPanel();
+        JPanel sliderPanel = new JPanel();
         JPanel resetPanel = new JPanel();
 
-        sideMenu.setLayout(new GridLayout(3,1));
-        chipsPanel.setLayout(new GridLayout(2,1));
-        resetPanel.setLayout(new GridLayout());
+        sideMenu.setLayout(new GridLayout(4,1));
+        queuePanel.setLayout(new GridBagLayout());
+        chipsPanel.setLayout(new GridBagLayout());
+        sliderPanel.setLayout(new GridLayout(2,1));
 
-        chipsPanel.add(logic.getChips1Label());
-        chipsPanel.add(logic.getChips2Label());
+        logic.getQueueLabel().setFont(new Font("Inter", Font.BOLD, 18));
+        logic.getChipsLabel().setFont(new Font("Inter", Font.BOLD, 18));
+        logic.getMapLabel().setHorizontalAlignment(JLabel.CENTER);
+        logic.getMapLabel().setFont(new Font("Inter", Font.PLAIN, 20));
+
+        queuePanel.add(logic.getQueueLabel());
+        chipsPanel.add(logic.getChipsLabel());
+        sliderPanel.add(logic.getMapLabel());
+        sliderPanel.add(logic.getSlider());
 
         JButton resetButton = new JButton("Reset");
         resetButton.addActionListener(logic);
         resetPanel.add(resetButton);
 
+        sideMenu.add(queuePanel);
         sideMenu.add(chipsPanel);
-        sideMenu.add(logic.getSlider());
+        sideMenu.add(sliderPanel);
         sideMenu.add(resetButton);
         sideMenu.setBackground(Color.LIGHT_GRAY);
         logic.getFrame().add(sideMenu, BorderLayout.LINE_END);

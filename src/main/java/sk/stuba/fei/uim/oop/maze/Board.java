@@ -5,10 +5,15 @@ import lombok.Setter;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Board {
     @Setter
+    @Getter
     private int boardSize;
+    @Getter
+    private Map<Integer, Integer> boardAlternatives;
     @Getter
     private Node[][] board;
     @Setter
@@ -17,6 +22,7 @@ public class Board {
     public Board(Player[] players, int boardSize) {
         this.players = players;
         this.boardSize = boardSize;
+        this.generateBoardAlternatives();
         this.generateBoard();
     }
 
@@ -25,12 +31,20 @@ public class Board {
         this.initializePlayers();
     }
 
+    public void generateBoardAlternatives() {
+        this.boardAlternatives = new HashMap<>();
+        this.boardAlternatives.put(6, 80);
+        this.boardAlternatives.put(8, 60);
+        this.boardAlternatives.put(10, 48);
+        this.boardAlternatives.put(12, 40);
+    }
+
     private void initializeBoard() {
         this.board = new Node[boardSize][boardSize];
 
         for (int i = 0; i< boardSize; i++){
             for (int j = 0; j< boardSize; j++) {
-                this.board[i][j] = new Node(j, i);
+                this.board[i][j] = new Node(j, i, this.boardAlternatives.get(this.boardSize));
             }
         }
     }
@@ -54,8 +68,9 @@ public class Board {
     }
 
     public void searchPlayerMoves() {
-        this.players[0].searchMoves(board, boardSize);
-        this.players[1].searchMoves(board, boardSize);
+        System.out.println("BoardSize: " + this.boardSize);
+        this.players[0].searchMoves(this.board, this.boardSize);
+        this.players[1].searchMoves(this.board, this.boardSize);
     }
 
     public void draw(Graphics g) {

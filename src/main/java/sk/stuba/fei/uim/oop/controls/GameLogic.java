@@ -21,10 +21,11 @@ public class GameLogic extends UniversalAdapter{
     @Getter
     private JFrame frame;
     @Getter
-    private JLabel chips1Label;
+    private JLabel chipsLabel;
     @Getter
-    private JLabel chips2Label;
-    private JLabel mapSizeLabel;
+    private JLabel mapLabel;
+    @Getter
+    private JLabel queueLabel;
     @Getter
     private JSlider slider;
     @Getter
@@ -33,8 +34,9 @@ public class GameLogic extends UniversalAdapter{
     public GameLogic() {
         this.frame = new JFrame("Reversi");
         this.slider = new JSlider(6, 12, 8);
-        this.chips1Label = new JLabel("BLACK chips: 0");
-        this.chips2Label = new JLabel("WHITE chips: 0");
+        this.queueLabel = new JLabel("ON TURN: BLACK");
+        this.chipsLabel = new JLabel("HUMAN: 0 | CPU: 0");
+        this.mapLabel = new JLabel("Map size: " + slider.getValue() + "x" + slider.getValue());
 
         this.players = new Player[2];
         this.players[0] = new Human(Color.BLACK);
@@ -43,6 +45,9 @@ public class GameLogic extends UniversalAdapter{
         this.render = new Render(this.board, this.players);
         this.render.addMouseListener(this);
         this.render.addMouseMotionListener(this);
+        this.updateChips();
+
+
     }
 
     private void repaint() {
@@ -54,6 +59,7 @@ public class GameLogic extends UniversalAdapter{
         this.board.generateBoard();
         this.repaint();
         this.updateChips();
+        this.updateMapLabel();
     }
 
     private boolean checkEnd() {
@@ -62,38 +68,59 @@ public class GameLogic extends UniversalAdapter{
 
     private void playMoves(Node current) {
         // Step1: Human makes move
-        this.players[0].makeMove(this.board.getBoard(), current);
+        this.players[0].makeMove(this.board.getBoard(), current, this.board.getBoardSize());
         this.board.searchPlayerMoves();
 
         // Step2: Check whether game is over
         if (checkEnd()) {
-            System.out.println("konec hry");
+            this.endMessage();
         }
 
         // Step3: Can CPU make a move if not pass
         if (players[1].getValidMoves().size() == 0) return;
         else {
             // Step4: CPU makes move
-            this.players[1].makeMove(this.board.getBoard(), current);
+            this.players[1].makeMove(this.board.getBoard(), current, this.board.getBoardSize());
             this.board.searchPlayerMoves();
+            this.updateOnTurn(players[0]);
             // Step5: Check whether game is over
             if (checkEnd()) {
-                System.out.println("konec hry");
+                this.endMessage();
                 return;
             }
 
             // Step6: CPU plays while human cannot take move or game is over
             while (players[0].getValidMoves().size() == 0) {
-                this.players[1].makeMove(this.board.getBoard(), current);
+                this.players[1].makeMove(this.board.getBoard(), current, this.board.getBoardSize());
                 this.board.searchPlayerMoves();
+                this.updateOnTurn(players[0]);
                 // Step7: Is game over?
                 if (checkEnd()) {
-                    System.out.println("konec hry");
+                    this.endMessage();
                     return;
                 }
             }
         }
+    }
 
+    private void endMessage() {
+        this.queueLabel.setText("WINNER IS: " + ((players[0].getNodes().size() > players[1].getNodes().size()) ? "BLACK" : "WHITE"));
+    }
+
+    private void updateMapLabel() {
+        this.mapLabel.setText("Map size: " + this.slider.getValue() + "x" + this.slider.getValue());
+    }
+
+    private void updateChips() {
+        this.chipsLabel.setText("PLAYER: " + players[0].getNodes().size() + "  |  CPU: " + players[1].getNodes().size());
+    }
+
+    private void updateOnTurn(Player player) {
+        this.queueLabel.setText("ON TURN: " + ((player.getColor() == Color.BLACK) ? "BLACK" : "WHITE"));
+    }
+
+    private int convertPosition(int screenPosition) {
+        return (screenPosition < 0) ? -1 : screenPosition / this.board.getBoardAlternatives().get(this.board.getBoardSize());
     }
 
     @Override
@@ -115,21 +142,10 @@ public class GameLogic extends UniversalAdapter{
             return;
         }
         if (this.players[0].canPlayNode(current)) {
-//            this.players[0].makeMove(this.board.getBoard(), current);
-//            this.board.searchPlayerMoves();
-//
-//            this.players[1].makeMove(this.board.getBoard(), current);
-//            this.board.searchPlayerMoves();
-
             playMoves(current);
             updateChips();
         }
 
-    }
-
-    private void updateChips() {
-        this.chips1Label.setText("BLACK chips: " + players[0].getNodes().size());
-        this.chips2Label.setText("WHITE chips: " + players[1].getNodes().size());
     }
 
     @Override
@@ -144,22 +160,10 @@ public class GameLogic extends UniversalAdapter{
         this.repaint();
     }
 
-    private int convertPosition(int screenPosition) {
-        return (screenPosition < 0) ? -1 : screenPosition / Node.NODE_SIZE;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Reset")) {
             this.restartGame();
-        } else {
-//            this.color = e.getSource()
-            System.out.println("comboBoxChanged");
         }
-    }
-
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        System.out.println(slider.getValue());
     }
 }
