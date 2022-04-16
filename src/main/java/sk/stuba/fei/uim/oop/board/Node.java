@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.oop.maze;
+package sk.stuba.fei.uim.oop.board;
 
 import lombok.Getter;
 import lombok.Setter;

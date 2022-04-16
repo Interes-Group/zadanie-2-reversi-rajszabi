@@ -2,19 +2,17 @@ package sk.stuba.fei.uim.oop.controls;
 
 import lombok.Getter;
 import sk.stuba.fei.uim.oop.gui.Render;
-import sk.stuba.fei.uim.oop.maze.Board;
-import sk.stuba.fei.uim.oop.maze.Node;
+import sk.stuba.fei.uim.oop.board.Board;
+import sk.stuba.fei.uim.oop.board.Node;
 import sk.stuba.fei.uim.oop.player.CPU;
 import sk.stuba.fei.uim.oop.player.Human;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
-public class GameLogic extends UniversalAdapter{
+public class GameLogic extends UniversalAdapter {
     private Board board;
     private Player[] players;
     @Getter

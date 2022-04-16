@@ -1,6 +1,6 @@
 package sk.stuba.fei.uim.oop.gui;
 
-import sk.stuba.fei.uim.oop.maze.Board;
+import sk.stuba.fei.uim.oop.board.Board;
 import sk.stuba.fei.uim.oop.player.Player;
 
 import javax.swing.*;

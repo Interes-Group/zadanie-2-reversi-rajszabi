@@ -1,7 +1,7 @@
 package sk.stuba.fei.uim.oop.player;
 
 import lombok.Getter;
-import sk.stuba.fei.uim.oop.maze.Node;
+import sk.stuba.fei.uim.oop.board.Node;
 
 import java.awt.*;
 import java.util.ArrayList;
