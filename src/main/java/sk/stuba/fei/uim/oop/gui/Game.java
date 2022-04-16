@@ -21,6 +21,7 @@ public class Game {
         logic.getSlider().setMajorTickSpacing(2);
         logic.getSlider().setSnapToTicks(true);
         logic.getSlider().setPaintLabels(true);
+        logic.getSlider().addChangeListener(logic);
 
         logic.getFrame().addKeyListener(logic);
         logic.getFrame().setFocusable(true);

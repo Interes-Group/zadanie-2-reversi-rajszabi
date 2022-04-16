@@ -32,7 +32,7 @@ public class GameLogic extends UniversalAdapter{
 
     public GameLogic() {
         this.frame = new JFrame("Reversi");
-        this.slider = new JSlider(6, 12, 8);
+        this.slider = new JSlider(6, 12, 6);
         this.queueLabel = new JLabel("ON TURN: BLACK");
         this.chipsLabel = new JLabel("HUMAN: 0 | CPU: 0");
         this.mapLabel = new JLabel("Map size: " + slider.getValue() + "x" + slider.getValue());
@@ -119,7 +119,14 @@ public class GameLogic extends UniversalAdapter{
     }
 
     private void endMessage() {
-        this.queueLabel.setText("WINNER IS: " + ((players[0].getNodes().size() > players[1].getNodes().size()) ? "BLACK" : "WHITE"));
+        if (players[0].getNodes().size() == players[1].getNodes().size()) {
+            this.queueLabel.setText("IT IS A TIE");
+        } else if (players[0].getNodes().size() > players[1].getNodes().size()) {
+            this.queueLabel.setText("WINNER IS:  BLACK");
+        } else {
+            this.queueLabel.setText("WINNER IS: WHITE");
+        }
+
     }
 
     @Override
